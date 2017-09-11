@@ -1,16 +1,16 @@
 package cn.csnbgsh.herbarium
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.cylee.androidlib.base.BaseActivity
 
 /**
  * Created by cylee on 16/3/31.
  */
-class MainActivity : Activity(), View.OnClickListener {
+class MainActivity : BaseActivity(), View.OnClickListener {
     companion object {
         class URLItem {
             var url : String = ""

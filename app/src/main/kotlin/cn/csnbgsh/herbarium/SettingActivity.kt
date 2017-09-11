@@ -1,14 +1,14 @@
 package cn.csnbgsh.herbarium
 
-import android.app.Activity
 import android.os.Bundle
 import android.widget.EditText
+import com.cylee.androidlib.base.BaseActivity
 import com.cylee.androidlib.util.Settings
 
 /**
  * Created by cylee on 16/4/2.
  */
-class SettingActivity : Activity() {
+class SettingActivity : BaseActivity() {
     companion object {
         const val SETTING_KEY_NAME = "SETTING_KEY_NAME"
         const val SETTING_KEY_PASSWORD = "SETTING_KEY_PASSWORD"
