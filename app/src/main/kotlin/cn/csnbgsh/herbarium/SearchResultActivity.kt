@@ -3,8 +3,13 @@ package cn.csnbgsh.herbarium
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import android.widget.EditText
+import android.view.ViewGroup
+import cn.csnbgsh.herbarium.entity.SearchPage
+import cn.lemon.view.RefreshRecyclerView
+import cn.lemon.view.adapter.BaseViewHolder
+import cn.lemon.view.adapter.RecyclerAdapter
 import com.cylee.androidlib.base.BaseActivity
 
 /**
@@ -20,7 +25,7 @@ class SearchResultActivity : BaseActivity() {
         }
     }
 
-    var mRecyclerView:RefreshRecyclerView = null
+    var mRecyclerView: RefreshRecyclerView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
@@ -29,20 +34,22 @@ class SearchResultActivity : BaseActivity() {
         }
 
         mRecyclerView = findViewById(R.id.recycler_view) as RefreshRecyclerView
-        mRecyclerView.setSwipeRefreshColors(0xFF437845.toInt(), 0xFFE44F98.toInt(), 0xFF2FAC21.toInt())
-        mRecyclerView.setLayoutManager(LinearLayoutManager(this))
-        mRecyclerView.setAdapter(mAdapter)
-        mRecyclerView.setRefreshAction(object : Action() {
-            fun onAction() {
-                getData(true)
-            }
-        })
-
-        mRecyclerView.setLoadMoreAction(object : Action() {
-            fun onAction() {
-                getData(false)
-                page++
-            }
-        })
+        mRecyclerView?.setSwipeRefreshColors(0xFF437845.toInt(), 0xFFE44F98.toInt(), 0xFF2FAC21.toInt())
+        mRecyclerView?.setLayoutManager(LinearLayoutManager(this))
+//        mRecyclerView?.setAdapter(mAdapter)
+//        mRecyclerView?.setRefreshAction()
+//
+//        mRecyclerView.setLoadMoreAction(object : Action() {
+//            fun onAction() {
+//            }
+//        })
     }
+
+//    inner class InnerAdapter:RecyclerAdapter<SearchPage.SearchItem> {
+//        constructor(context: Context?, data: MutableList<SearchPage.SearchItem>?) : super(context, data)
+//
+//        override fun onCreateBaseViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<SearchPage.SearchItem> {
+//
+//        }
+//    }
 }

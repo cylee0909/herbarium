@@ -9,8 +9,7 @@ xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp"
     android:orientation="vertical"
-    skin:background="@drawable/skin_common_alert_dialog_shape_fill_box"
-    tools:background="@drawable/skin_common_alert_dialog_shape_fill_box">
+    android:background="@drawable/skin_common_alert_dialog_shape_fill_box">
 
     <!-- 顶部Title -->
 
