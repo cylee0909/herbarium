@@ -1,6 +1,5 @@
 package com.cylee.androidlib.net.modle;
 
-import com.cylee.androidlib.net.Config;
 import com.cylee.androidlib.net.InputBase;
 
 import java.io.Serializable;

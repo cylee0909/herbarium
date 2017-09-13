@@ -2,6 +2,10 @@ package cn.csnbgsh.herbarium
 
 import android.app.Application
 import android.content.Context
+import com.cylee.androidlib.base.BaseApplication
+import com.cylee.androidlib.net.Config
+import com.cylee.androidlib.net.Net
+import com.cylee.androidlib.util.DirectoryManager
 import com.cylee.androidlib.util.Settings
 
 /**
@@ -10,7 +14,11 @@ import com.cylee.androidlib.util.Settings
 class App :Application() {
     override fun onCreate() {
         super.onCreate()
+        BaseApplication.init(this)
         EX.context = applicationContext
         Settings.init(this)
+        DirectoryManager.init()
+        Config.initHost("http://csh.ibiodiversity.net")
+        Net.init(this)
     }
 }

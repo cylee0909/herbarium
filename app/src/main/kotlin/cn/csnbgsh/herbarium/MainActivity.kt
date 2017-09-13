@@ -59,10 +59,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.am_search_linear -> {
-                var urlItem = URL_MAP.get(R.id.am_search_linear)
-                if (urlItem is URLItem) {
-                    startActivity(WebActivity.createIntent(this, urlItem.url, urlItem.title))
-                }
+                startActivity(SearchActivity.createIntent(this))
             }
             R.id.am_message_linear -> {
                 var urlItem = URL_MAP.get(R.id.am_message_linear)

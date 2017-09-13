@@ -329,7 +329,14 @@ public class Net {
         }
         String nt = "nt=" + (NetUtils.isWifiConnected() ? "wifi" : "mobile");
         signCalcParams.add(nt);
-        fullUrl.append("&").append(nt);
+        boolean first = true;
+        for (String s : signCalcParams) {
+            if (!first){
+                fullUrl.append("&");
+            }
+            first = false;
+            fullUrl.append(s);
+        }
         return fullUrl.toString();
     }
 

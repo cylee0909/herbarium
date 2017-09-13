@@ -143,6 +143,11 @@ public class HWRequest<T> extends Request<T> {
                         FileUtils.writeFile(outFile.getAbsolutePath(), response.data);
                         return Response.success((T) outFile, HttpHeaderParser.parseCacheHeaders(response));
                     } else {
+                        if (IPureEntity.class.isAssignableFrom((Class<?>) mClazz)) {
+                            Gson gson = GsonBuilderFactory.createBuilder();
+                            T data = (T) gson.fromJson(json, mClazz);
+                            return Response.success(data, HttpHeaderParser.parseCacheHeaders(response));
+                        }
                         if (json.matches(ERROR_NO_0_EXPRESSION)) {  // errno=0
                             T data;
                             JSONObject jsonObject = new JSONObject(json);
