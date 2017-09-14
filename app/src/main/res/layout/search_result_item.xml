@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white">
-    <TextView
+    android:layout_height="wrap_content">
+    <com.cylee.lib.widget.StateTextView
         android:id="@+id/sri_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:textColor="#333333"
-        android:layout_margin="15dp"/>
+        android:padding="15dp"/>
 </LinearLayout>

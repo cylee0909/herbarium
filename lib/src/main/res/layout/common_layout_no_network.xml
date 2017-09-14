@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/autoanswer_webview_loading"
+    android:background="#ffffff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible">
+
+    <ProgressBar
+        android:layout_gravity="center"
+        android:id="@+id/layout_progress_loading"
+        android:layout_width="28dip"
+        android:layout_height="28dip"
+        android:indeterminateDrawable="@drawable/common_loading_progressbar_anim_drawable"/>
+</FrameLayout>

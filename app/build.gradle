@@ -33,6 +33,7 @@ dependencies {
     compile project(':lib')
     compile 'cn.lemon:RefreshRecyclerView:1.2.0'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.21'
+    compile 'com.github.chrisbanes:PhotoView:2.0.0'
 }
 
 buildscript {

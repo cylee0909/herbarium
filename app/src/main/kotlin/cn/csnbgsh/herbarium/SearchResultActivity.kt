@@ -15,6 +15,7 @@ import cn.lemon.view.adapter.RecyclerAdapter
 import com.cylee.androidlib.base.BaseActivity
 import com.cylee.androidlib.net.Net
 import com.cylee.androidlib.net.NetError
+import com.cylee.androidlib.view.SwitchViewUtil
 import java.util.*
 
 /**
@@ -35,14 +36,17 @@ class SearchResultActivity : BaseActivity() {
     var mAdapter : InnerAdapter? = null
     var mData = ArrayList<SearchPage.SearchItem>()
     var searchText = ""
+    lateinit var titleText : TextView
+    lateinit var switchViewUtil : SwitchViewUtil
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_result)
         bind<View>(R.id.as_back).setOnClickListener {
             finish()
         }
-
+        titleText  = bind(R.id.asr_title)
         searchText = intent.getStringExtra(INPUT_SEARCH_TEXT)
+        titleText.text = "${searchText}查询结果"
         mRecyclerView = findViewById(R.id.recycler_view) as RefreshRecyclerView
         mRecyclerView?.setSwipeRefreshColors(0xFF437845.toInt(), 0xFFE44F98.toInt(), 0xFF2FAC21.toInt())
         mRecyclerView?.setLayoutManager(LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false))
@@ -59,10 +63,16 @@ class SearchResultActivity : BaseActivity() {
                 loadData(true)
             }
         })
+        switchViewUtil = SwitchViewUtil(this, mRecyclerView, View.OnClickListener {
+
+        })
         loadData(false)
     }
 
     private fun loadData(more:Boolean, refresh:Boolean = false) {
+        if (!more && !refresh) {
+            switchViewUtil.showView(SwitchViewUtil.ViewType.LOADING_VIEW)
+        }
         var start = if (more) mData.size / PAGE_SIZE + 1 else 1
         Net.post(this, SearchPage.Input.buildInput(searchText, start, PAGE_SIZE), object : Net.SuccessListener<SearchPage>() {
             override fun onResponse(response: SearchPage?) {
@@ -79,10 +89,12 @@ class SearchResultActivity : BaseActivity() {
                 if(response == null || response.Table == null || response.Table.size < PAGE_SIZE) {
                     mRecyclerView?.showNoMore()
                 }
+                switchViewUtil.showView(if(mAdapter?.data?.isEmpty() ?: true)
+                    SwitchViewUtil.ViewType.EMPTY_VIEW else SwitchViewUtil.ViewType.MAIN_VIEW)
             }
         }, object : Net.ErrorListener(){
             override fun onErrorResponse(e: NetError?) {
-
+                switchViewUtil.showView(SwitchViewUtil.ViewType.ERROR_VIEW)
             }
         })
     }
@@ -93,10 +105,18 @@ class SearchResultActivity : BaseActivity() {
         override fun onCreateBaseViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<SearchPage.SearchItem> {
             return Holder(parent, R.layout.search_result_item)
         }
+
+        override fun onBindViewHolder(holder: BaseViewHolder<SearchPage.SearchItem>?, position: Int) {
+            if (holder is Holder) {
+                holder.index = position
+            }
+            super.onBindViewHolder(holder, position)
+        }
     }
 
     class Holder : BaseViewHolder<SearchPage.SearchItem> {
-        var text : TextView? = null
+        lateinit var text : TextView
+        var index = 0
         constructor(itemView: View?) : super(itemView)
         constructor(parent: ViewGroup?, layoutId: Int) : super(parent, layoutId)
 
@@ -107,7 +127,14 @@ class SearchResultActivity : BaseActivity() {
 
         override fun setData(data: SearchPage.SearchItem) {
             super.setData(data)
-            text?.text = "${data.Barcode} ${data.CommonName} ${data.FamilyCName} ${data.CanonicalName}"
+            if (index % 2 == 0) {
+                text.setBackgroundColor(0xffffffff.toInt())
+            } else{
+                text.setBackgroundColor(0xfff2f2f2.toInt())
+            }
+            text.text = "${data.CommonName} ${data.CanonicalName} \n" +
+                    "${data.Province} ${data.City}  ${data.Place} \n"+
+                    "${data.Collector} ${data.CollectSN} ${data.CollDay_origin}"
         }
 
         override fun onItemViewClick(data: SearchPage.SearchItem?) {
