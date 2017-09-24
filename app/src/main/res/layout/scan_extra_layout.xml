@@ -11,11 +11,24 @@
         android:hint="手工输入区"
         android:textColorHint="#666666"
         android:textColor="@color/common_title"/>
-    <Button
-        android:id="@+id/sel_confirm_bn"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="查询"
-        android:textColor="@color/common_title"/>
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+        <Button
+            android:id="@+id/sel_confirm_batch"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="查询批次"
+            android:textColor="@color/common_title"/>
+        <Button
+            android:id="@+id/sel_confirm_specimen"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="查询标本"
+            android:textColor="@color/common_title"/>
+    </LinearLayout>
 </LinearLayout>

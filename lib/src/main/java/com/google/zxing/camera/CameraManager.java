@@ -29,6 +29,7 @@ import android.view.SurfaceHolder;
 import android.view.WindowManager;
 
 import com.cylee.androidlib.util.AndroidUtils;
+import com.cylee.androidlib.util.ScreenUtil;
 
 import java.io.IOException;
 
@@ -44,8 +45,8 @@ public final class CameraManager {
 
   private static final int MIN_FRAME_WIDTH = 240;
   private static final int MIN_FRAME_HEIGHT = 240;
-  private static final int MAX_FRAME_WIDTH = 480;
-  private static final int MAX_FRAME_HEIGHT = 360;
+  private static final int MAX_FRAME_WIDTH = ScreenUtil.dp2px(320);
+  private static final int MAX_FRAME_HEIGHT = ScreenUtil.dp2px(330);
 
   private static CameraManager cameraManager;
 

@@ -52,6 +52,7 @@ public class SwitchViewUtil {
         View view = null;
         if (viewType.equals(ViewType.MAIN_VIEW)) {
             showMainView();
+            return;
         } else if (viewType.equals(ViewType.ERROR_VIEW)) {
             view = LayoutInflater.from(mContext).inflate(R.layout.common_layout_listview_error, null);
         } else if (viewType.equals(ViewType.LOADING_VIEW)) {
@@ -80,7 +81,7 @@ public class SwitchViewUtil {
                 view = newView;
             }
         }
-        if (onClickListener != null) {
+        if (viewType != ViewType.MAIN_VIEW && onClickListener != null) {
             view.setOnClickListener(onClickListener);
         }
         showCustomView(view);

@@ -145,6 +145,17 @@ public class HWRequest<T> extends Request<T> {
                     } else {
                         if (IPureEntity.class.isAssignableFrom((Class<?>) mClazz)) {
                             Gson gson = GsonBuilderFactory.createBuilder();
+                            if (json.startsWith("[") && json.endsWith("]")) {
+                                json = "{data:"+json+"}";
+                            }
+                            JSONObject jsonObject = new JSONObject(json);
+                            if (jsonObject.has("status")) {
+                                String status = jsonObject.getString("status");
+                                if ("error".equals(status)) {
+                                    String msg = jsonObject.optString("message");
+                                    return Response.error(new ParseError("Error response msg : "+msg));
+                                }
+                            }
                             T data = (T) gson.fromJson(json, mClazz);
                             return Response.success(data, HttpHeaderParser.parseCacheHeaders(response));
                         }

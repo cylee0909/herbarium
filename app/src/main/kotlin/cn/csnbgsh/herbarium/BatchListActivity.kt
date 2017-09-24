@@ -7,7 +7,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import cn.csnbgsh.herbarium.entity.SearchPage
+import cn.csnbgsh.herbarium.entity.DelWorkSheet
+import cn.csnbgsh.herbarium.entity.WorkSheet
+import cn.csnbgsh.herbarium.entity.GetWorkSheets
 import cn.lemon.view.RefreshRecyclerView
 import cn.lemon.view.adapter.Action
 import cn.lemon.view.adapter.BaseViewHolder
@@ -16,51 +18,39 @@ import com.cylee.androidlib.base.BaseActivity
 import com.cylee.androidlib.net.Net
 import com.cylee.androidlib.net.NetError
 import com.cylee.androidlib.view.SwitchViewUtil
+import com.cylee.lib.widget.dialog.DialogUtil
+import com.mcxtzhang.swipemenulib.SwipeMenuLayout
 import java.util.*
 
 /**
- * Created by cylee on 2017/9/11.
+ * Created by cylee on 2017/9/23.
  */
-class SearchResultActivity : BaseActivity() {
+
+class BatchListActivity : BaseActivity() {
     companion object {
-        val PAGE_SIZE = 20
-        val INPUT_SEARCH_TEXT = "INPUT_SEARCH_TEXT"
-        fun createIntent(context: Context, searchText:String): Intent {
-            var intent =  Intent(context, SearchResultActivity::class.java)
-            intent.putExtra(INPUT_SEARCH_TEXT, searchText)
-            return intent
+        fun createIntent(context: Context): Intent {
+            return Intent(context, BatchListActivity::class.java)
         }
     }
-
     var mRecyclerView: RefreshRecyclerView? = null
     var mAdapter : InnerAdapter? = null
-    var mData = ArrayList<SearchPage.SearchItem>()
-    var searchText = ""
-    lateinit var titleText : TextView
+    var mData = ArrayList<WorkSheet>()
     lateinit var switchViewUtil : SwitchViewUtil
+    var dialogUtil : DialogUtil = DialogUtil()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search_result)
-        bind<View>(R.id.as_back).setOnClickListener {
-            finish()
-        }
-        titleText  = bind(R.id.asr_title)
-        searchText = intent.getStringExtra(INPUT_SEARCH_TEXT)
-        titleText.text = "${searchText}查询结果"
-        mRecyclerView = findViewById(R.id.recycler_view) as RefreshRecyclerView
+        setContentView(R.layout.activity_batch_list)
+        bind<View>(R.id.abl_back).setOnClickListener { finish() }
+        mRecyclerView = findViewById(R.id.abl_recycler_view) as RefreshRecyclerView
         mRecyclerView?.setSwipeRefreshColors(0xFF437845.toInt(), 0xFFE44F98.toInt(), 0xFF2FAC21.toInt())
         mRecyclerView?.setLayoutManager(LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false))
         mAdapter = InnerAdapter(this, mData)
+        mAdapter?.loadMoreAble = false
         mRecyclerView?.setAdapter(mAdapter)
         mRecyclerView?.setRefreshAction(object : Action {
             override fun onAction() {
                 loadData(false, true)
-            }
-        })
-
-        mRecyclerView?.setLoadMoreAction(object : Action {
-            override fun onAction() {
-                loadData(true)
             }
         })
         switchViewUtil = SwitchViewUtil(this, mRecyclerView, View.OnClickListener {
@@ -73,9 +63,8 @@ class SearchResultActivity : BaseActivity() {
         if (!more && !refresh) {
             switchViewUtil.showView(SwitchViewUtil.ViewType.LOADING_VIEW)
         }
-        var start = if (more) mData.size / PAGE_SIZE + 1 else 1
-        Net.post(this, SearchPage.Input.buildInput(searchText, start, PAGE_SIZE), object : Net.SuccessListener<SearchPage>() {
-            override fun onResponse(response: SearchPage?) {
+        Net.post(this, GetWorkSheets.Input.buildInput(), object : Net.SuccessListener<GetWorkSheets>() {
+            override fun onResponse(response: GetWorkSheets?) {
                 if (!more) {
                     mAdapter?.clear()
                 }
@@ -84,10 +73,7 @@ class SearchResultActivity : BaseActivity() {
                     mRecyclerView?.getRecyclerView()?.scrollToPosition(0)
                 }
                 if (response != null) {
-                    mAdapter?.addAll(response.Table)
-                }
-                if(response == null || response.Table == null || response.Table.size < PAGE_SIZE) {
-                    mRecyclerView?.showNoMore()
+                    mAdapter?.addAll(response.workSheets)
                 }
                 switchViewUtil.showView(if(mAdapter?.data?.isEmpty() ?: true)
                     SwitchViewUtil.ViewType.EMPTY_VIEW else SwitchViewUtil.ViewType.MAIN_VIEW)
@@ -99,14 +85,14 @@ class SearchResultActivity : BaseActivity() {
         })
     }
 
-    inner class InnerAdapter:RecyclerAdapter<SearchPage.SearchItem> {
-        constructor(context: Context?, data: MutableList<SearchPage.SearchItem>?) : super(context, data)
+    inner class InnerAdapter: RecyclerAdapter<WorkSheet> {
+        constructor(context: Context?, data: MutableList<WorkSheet>?) : super(context, data)
 
-        override fun onCreateBaseViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<SearchPage.SearchItem> {
-            return Holder(parent, R.layout.search_result_item)
+        override fun onCreateBaseViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<WorkSheet> {
+            return Holder(parent, R.layout.worksheet_item)
         }
 
-        override fun onBindViewHolder(holder: BaseViewHolder<SearchPage.SearchItem>?, position: Int) {
+        override fun onBindViewHolder(holder: BaseViewHolder<WorkSheet>?, position: Int) {
             if (holder is Holder) {
                 holder.index = position
             }
@@ -114,32 +100,53 @@ class SearchResultActivity : BaseActivity() {
         }
     }
 
-    inner class Holder : BaseViewHolder<SearchPage.SearchItem> {
+    inner class Holder : BaseViewHolder<WorkSheet> {
         lateinit var text : TextView
+        lateinit var delText : TextView
+        lateinit var sml: SwipeMenuLayout
         var index = 0
+        lateinit var mData : WorkSheet
         constructor(itemView: View?) : super(itemView)
         constructor(parent: ViewGroup?, layoutId: Int) : super(parent, layoutId)
 
         override fun onInitializeView() {
             super.onInitializeView()
-            text = findViewById(R.id.sri_text)
+            text = findViewById(R.id.wi_text)
+            sml = findViewById(R.id.wi_swip_menu)
+            delText = findViewById(R.id.wi_del_text)
+            delText.setOnClickListener {
+                sml.quickClose()
+                dialogUtil.showWaitingDialog(this@BatchListActivity, "删除中...")
+                Net.post(this@BatchListActivity, DelWorkSheet.Input.buildInput(mData.SN), object : Net.SuccessListener<DelWorkSheet>() {
+                    override fun onResponse(response: DelWorkSheet?) {
+                        mAdapter?.remove(mData)
+                        dialogUtil.dismissWaitingDialog()
+                        toast("删除成功")
+                    }
+                }, object : Net.ErrorListener() {
+                    override fun onErrorResponse(e: NetError?) {
+                        dialogUtil.dismissWaitingDialog()
+                        toast("删除失败")
+                    }
+                })
+            }
         }
 
-        override fun setData(data: SearchPage.SearchItem) {
+        override fun setData(data: WorkSheet) {
             super.setData(data)
+            this.mData = data
             if (index % 2 == 0) {
                 text.setBackgroundColor(0xffffffff.toInt())
             } else{
                 text.setBackgroundColor(0xfff2f2f2.toInt())
             }
-            text.text = "${data.CommonName} ${data.CanonicalName} \n" +
-                    "${data.Province} ${data.City}  ${data.Place} \n"+
-                    "${data.Collector} ${data.CollectSN} ${data.CollDay_origin}"
+            text.text = "${data.SN} ${data.SpecimenSubmitter}" +
+                    "${data.Area} ${data.SpecimenReceiveTime}  ${data.Count}份"
         }
 
-        override fun onItemViewClick(data: SearchPage.SearchItem?) {
+        override fun onItemViewClick(data: WorkSheet?) {
             super.onItemViewClick(data)
-            startActivity(ResultDetailActivity.createIntent(this@SearchResultActivity, data!!))
+
         }
     }
 }

@@ -34,10 +34,11 @@ dependencies {
     compile 'cn.lemon:RefreshRecyclerView:1.2.0'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.21'
     compile 'com.github.chrisbanes:PhotoView:2.0.0'
+    compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.2.5'
 }
 
 buildscript {
-    ext.kotlin_version = '1.0.1-2'
+    ext.kotlin_version = '1.0.4'
     repositories {
         mavenCentral()
         jcenter()

@@ -30,6 +30,8 @@
         <activity android:name=".SettingActivity"></activity>
         <activity android:name=".SearchActivity"></activity>
         <activity android:name=".SearchResultActivity"></activity>
+        <activity android:name=".ResultDetailActivity"></activity>
+        <activity android:name=".BatchListActivity"></activity>
     </application>
 
 </manifest>

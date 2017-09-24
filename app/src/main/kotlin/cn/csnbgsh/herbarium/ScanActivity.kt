@@ -5,8 +5,13 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Rect
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.widget.*
+import cn.csnbgsh.herbarium.entity.GetWorkSheet
+import com.cylee.androidlib.net.Net
+import com.cylee.androidlib.net.NetError
+import com.cylee.lib.widget.dialog.DialogUtil
 import com.google.zxing.CaptureActivity
 import com.google.zxing.Result
 import com.google.zxing.camera.CameraManager
@@ -25,9 +30,9 @@ class ScanActivity : CaptureActivity () {
             return intent
         }
     }
-
-    var mHandInput : EditText? = null;
-    var mConfirmBn : Button? = null;
+    val dialogUtil = DialogUtil()
+    lateinit var mHandInput : EditText
+    lateinit var mBatchBn: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,12 +43,31 @@ class ScanActivity : CaptureActivity () {
         params.topMargin = rect.bottom
         root?.addView(extraView, params)
 
-        mHandInput = extraView.findViewById(R.id.sel_input_edit) as? EditText
-        mConfirmBn = extraView.findViewById(R.id.sel_confirm_bn) as? Button
+        mHandInput = extraView.findViewById(R.id.sel_input_edit) as EditText
+        mBatchBn = extraView.findViewById(R.id.sel_confirm_batch) as Button
 
         bind<LinearLayout>(R.id.qcs_title_container_linear)?.setBackgroundResource(R.drawable.wood_bg)
         bind<TextView>(R.id.qcs_exit)?.setOnClickListener {finish()}
         bind<TextView>(R.id.qcs_title)?.setText(intent.getStringExtra(INPUT_TITLE))
+        mBatchBn.setOnClickListener {
+            var inputText = mHandInput.text.toString()
+            if (TextUtils.isEmpty(inputText)) { // 输入为空
+                startActivity(BatchListActivity.createIntent(this))
+            } else {
+                dialogUtil.showWaitingDialog(this, "查询中...")
+                Net.post(this, GetWorkSheet.Input.buildInput(inputText), object : Net.SuccessListener<GetWorkSheet>() {
+                    override fun onResponse(response: GetWorkSheet?) {
+                        dialogUtil.dismissWaitingDialog()
+                        toast("查询到标本")
+                    }
+                }, object : Net.ErrorListener() {
+                    override fun onErrorResponse(e: NetError?) {
+                        dialogUtil.dismissWaitingDialog()
+                        toast("没有查询到标本")
+                    }
+                })
+            }
+        }
     }
 
     override fun handleDecode(result: Result?, barcode: Bitmap?) {
