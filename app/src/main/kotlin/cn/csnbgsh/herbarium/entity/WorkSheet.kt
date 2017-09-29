@@ -1,6 +1,8 @@
 package cn.csnbgsh.herbarium.entity
 
-class WorkSheet {
+import java.io.Serializable
+
+class WorkSheet : Serializable {
     val SN = ""
     val Collectors = ""
     val Area = ""

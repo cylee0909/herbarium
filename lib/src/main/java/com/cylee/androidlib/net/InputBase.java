@@ -23,6 +23,11 @@ public abstract class InputBase {
         aClass = this.getClass();
     }
 
+    public InputBase setNeedCache(boolean needCache) {
+        this.needCache = needCache;
+        return this;
+    }
+
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append(Config.getHost());

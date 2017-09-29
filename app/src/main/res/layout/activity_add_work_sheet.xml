@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="采集人    "/>
+        <EditText
+            android:id="@+id/aaws_author"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="采集地    "/>
+        <EditText
+            android:id="@+id/aaws_place"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="批次描述"/>
+        <EditText
+            android:id="@+id/aaws_desc"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="号数"/>
+            <EditText
+                android:id="@+id/aaws_id"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="份数"/>
+            <EditText
+                android:id="@+id/aaws_count"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:inputType="number"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标签"/>
+
+        <CheckBox
+            android:id="@+id/aaws_barcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="条形码"/>
+        <CheckBox
+            android:id="@+id/aaws_dna"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分子样"/>
+        <EditText
+            android:id="@+id/aaws_demo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="标签样例"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#fafafa">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="标本提交"/>
+            <EditText
+                android:id="@+id/aaws_submit"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="40dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:text="接收        "/>
+            <TextView
+                android:id="@+id/aaws_receiver_author"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:hint="选择接收人"
+                android:singleLine="true"
+                android:gravity="center_vertical"
+                android:layout_height="40dp" />
+            <TextView
+                android:id="@+id/aaws_receiver_date"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:gravity="center_vertical"
+                android:hint="接收时间"
+                android:layout_height="40dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="记录提交"/>
+        <EditText
+            android:id="@+id/aaws_record_submit"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="40dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:text="接收        "/>
+        <TextView
+            android:id="@+id/aaws_record_author"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:hint="选择接收人"
+            android:singleLine="true"
+            android:gravity="center_vertical"
+            android:layout_height="40dp" />
+        <TextView
+            android:id="@+id/aaws_record_date"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:gravity="center_vertical"
+            android:hint="接收时间"
+            android:layout_height="40dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/aaws_discard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="放弃"/>
+        <Button
+            android:id="@+id/aaws_save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="保存新批次"/>
+    </LinearLayout>
+</LinearLayout>

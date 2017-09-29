@@ -32,6 +32,9 @@
         <activity android:name=".SearchResultActivity"></activity>
         <activity android:name=".ResultDetailActivity"></activity>
         <activity android:name=".BatchListActivity"></activity>
+        <activity android:name=".WorkSheetDetailActivity"/>
+        <activity android:name=".ProcessEditActivity"/>
+        <activity android:name=".AddWorkSheetActivity"/>
     </application>
 
 </manifest>

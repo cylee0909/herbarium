@@ -42,7 +42,7 @@ public class CaptureActivity extends Activity implements Callback {
 	private boolean hasSurface;
 	private Vector<BarcodeFormat> decodeFormats;
 	private String characterSet;
-	private InactivityTimer inactivityTimer;
+	protected InactivityTimer inactivityTimer;
 	private MediaPlayer mediaPlayer;
 	private boolean playBeep;
 	private static final float BEEP_VOLUME = 0.10f;
@@ -139,7 +139,6 @@ public class CaptureActivity extends Activity implements Callback {
 		bundle.putString("result", resultString);
 		resultIntent.putExtras(bundle);
 		this.setResult(RESULT_OK, resultIntent);
-
 		finish();
 	}
 
@@ -212,7 +211,7 @@ public class CaptureActivity extends Activity implements Callback {
 
 	private static final long VIBRATE_DURATION = 200L;
 
-	private void playBeepSoundAndVibrate() {
+	protected void playBeepSoundAndVibrate() {
 		if (playBeep && mediaPlayer != null) {
 			mediaPlayer.start();
 		}

@@ -5,21 +5,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <cn.csnbgsh.herbarium.widget.EasySwipeMenuLayout
-        android:id="@+id/wi_swip_menu"
+        android:id="@+id/wdp_swip_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:rightMenuView="@+id/wi_del_text"
-        app:contentView="@+id/wi_text"
-        app:canRightSwipe="false">
+        app:contentView="@+id/wdp_text"
+        app:rightMenuView="@+id/wdp_del_text">
         <com.cylee.lib.widget.StateTextView
-            android:id="@+id/wi_text"
+            android:id="@+id/wdp_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textColor="#333333"
             android:padding="15dp"/>
         <com.cylee.lib.widget.StateTextView
-            android:id="@+id/wi_del_text"
+            android:id="@+id/wdp_del_text"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="删除"

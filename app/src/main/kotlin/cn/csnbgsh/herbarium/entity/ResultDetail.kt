@@ -37,7 +37,7 @@ class ResultDetail : Serializable, IPureEntity {
         }
     }
 
-    class Specimen {
+    class Specimen  : Serializable{
         var ID = ""
         var MuseumID = ""
         var CollectID = ""
@@ -74,7 +74,7 @@ class ResultDetail : Serializable, IPureEntity {
         var UpdateTime = ""
     }
 
-    class Collection {
+    class Collection  : Serializable{
         var ID = ""
         var MuseumID = ""
         var CollBarcode = ""
@@ -113,7 +113,7 @@ class ResultDetail : Serializable, IPureEntity {
         var UpdateTime = ""
     }
 
-    class Identification {
+    class Identification  : Serializable{
         var ID = ""
         var MuseumID = ""
         var CollectID = ""
@@ -146,7 +146,7 @@ class ResultDetail : Serializable, IPureEntity {
         var UpdateTime = ""
     }
 
-    class Photo {
+    class Photo : Serializable{
         var ID = ""
         var MuseumID = ""
         var SpecimenID = ""

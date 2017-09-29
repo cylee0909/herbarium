@@ -53,17 +53,31 @@ class ScanActivity : CaptureActivity () {
             var inputText = mHandInput.text.toString()
             if (TextUtils.isEmpty(inputText)) { // 输入为空
                 startActivity(BatchListActivity.createIntent(this))
+                finish()
             } else {
                 dialogUtil.showWaitingDialog(this, "查询中...")
+                if (TextUtils.isDigitsOnly(inputText)) {
+                    for (i in 0..6-inputText.length) {
+                        inputText = 0.toString()+inputText
+                    }
+                    inputText = "CSH"+inputText
+                }
                 Net.post(this, GetWorkSheet.Input.buildInput(inputText), object : Net.SuccessListener<GetWorkSheet>() {
                     override fun onResponse(response: GetWorkSheet?) {
                         dialogUtil.dismissWaitingDialog()
-                        toast("查询到标本")
+                        if (!TextUtils.isEmpty(response?.WorkSheet?.SN)) {
+                            startActivity(WorkSheetDetailActivity.createIntent(this@ScanActivity, response!!))
+                            finish()
+                        } else {
+                            startActivity(AddWorkSheetActivity.createIntent(this@ScanActivity, inputText))
+                            finish()
+                        }
                     }
                 }, object : Net.ErrorListener() {
                     override fun onErrorResponse(e: NetError?) {
                         dialogUtil.dismissWaitingDialog()
-                        toast("没有查询到标本")
+                        startActivity(AddWorkSheetActivity.createIntent(this@ScanActivity, inputText))
+                        finish()
                     }
                 })
             }
@@ -71,6 +85,9 @@ class ScanActivity : CaptureActivity () {
     }
 
     override fun handleDecode(result: Result?, barcode: Bitmap?) {
-        super.handleDecode(result, barcode)
+        inactivityTimer.onActivity()
+        playBeepSoundAndVibrate()
+        val resultString = result?.text
+        mHandInput.setText(resultString)
     }
 }

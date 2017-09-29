@@ -8,8 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import cn.csnbgsh.herbarium.entity.DelWorkSheet
+import cn.csnbgsh.herbarium.entity.GetWorkSheet
 import cn.csnbgsh.herbarium.entity.WorkSheet
 import cn.csnbgsh.herbarium.entity.GetWorkSheets
+import cn.csnbgsh.herbarium.widget.EasySwipeMenuLayout
 import cn.lemon.view.RefreshRecyclerView
 import cn.lemon.view.adapter.Action
 import cn.lemon.view.adapter.BaseViewHolder
@@ -19,7 +21,6 @@ import com.cylee.androidlib.net.Net
 import com.cylee.androidlib.net.NetError
 import com.cylee.androidlib.view.SwitchViewUtil
 import com.cylee.lib.widget.dialog.DialogUtil
-import com.mcxtzhang.swipemenulib.SwipeMenuLayout
 import java.util.*
 
 /**
@@ -103,7 +104,7 @@ class BatchListActivity : BaseActivity() {
     inner class Holder : BaseViewHolder<WorkSheet> {
         lateinit var text : TextView
         lateinit var delText : TextView
-        lateinit var sml: SwipeMenuLayout
+        lateinit var sml: EasySwipeMenuLayout
         var index = 0
         lateinit var mData : WorkSheet
         constructor(itemView: View?) : super(itemView)
@@ -115,7 +116,7 @@ class BatchListActivity : BaseActivity() {
             sml = findViewById(R.id.wi_swip_menu)
             delText = findViewById(R.id.wi_del_text)
             delText.setOnClickListener {
-                sml.quickClose()
+                sml.resetStatus()
                 dialogUtil.showWaitingDialog(this@BatchListActivity, "删除中...")
                 Net.post(this@BatchListActivity, DelWorkSheet.Input.buildInput(mData.SN), object : Net.SuccessListener<DelWorkSheet>() {
                     override fun onResponse(response: DelWorkSheet?) {
@@ -142,11 +143,25 @@ class BatchListActivity : BaseActivity() {
             }
             text.text = "${data.SN} ${data.SpecimenSubmitter}" +
                     "${data.Area} ${data.SpecimenReceiveTime}  ${data.Count}份"
+            text.setOnClickListener {
+                onItemViewClick(data)
+            }
         }
 
         override fun onItemViewClick(data: WorkSheet?) {
             super.onItemViewClick(data)
-
+            dialogUtil.showWaitingDialog(this@BatchListActivity, "查询中...")
+            Net.post(this@BatchListActivity, GetWorkSheet.Input.buildInput(data!!.SN), object : Net.SuccessListener<GetWorkSheet>() {
+                override fun onResponse(response: GetWorkSheet?) {
+                    dialogUtil.dismissWaitingDialog()
+                    startActivity(WorkSheetDetailActivity.createIntent(this@BatchListActivity, response!!))
+                }
+            }, object : Net.ErrorListener() {
+                override fun onErrorResponse(e: NetError?) {
+                    dialogUtil.dismissWaitingDialog()
+                    toast("没有查询到标本")
+                }
+            })
         }
     }
 }

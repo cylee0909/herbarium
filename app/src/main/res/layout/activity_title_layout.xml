@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/atl_title_content"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/wood_bg">
+        <ImageView
+            android:id="@+id/atl_back"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:src="@drawable/icon_back"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="8dp"/>
+        <TextView
+            android:id="@+id/atl_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="50dp"
+            tools:text="AcerAcerAcerAcer查询结果"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="20sp"
+            android:gravity="center"/>
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/atl_content_layout"
+        android:layout_below="@+id/atl_title_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+</RelativeLayout>

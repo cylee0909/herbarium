@@ -33,11 +33,11 @@ class GetWorkSheet : Serializable, IPureEntity {
         }
     }
 
-    var WorkSheet = ArrayList<WorkSheet>()
+    var WorkSheet = WorkSheet()
     var Specimens = ArrayList<Specimen>()
     var Processes = ArrayList<Process>()
 
-    class Specimen {
+    class Specimen : Serializable{
         val GUID = ""
         val SheetSN = ""
         val Barcode = ""
@@ -50,7 +50,7 @@ class GetWorkSheet : Serializable, IPureEntity {
         val UpdateTime = ""
     }
 
-    class Process {
+    class Process : Serializable{
         val GUID = ""
         val SN = ""
         val Count = -1
