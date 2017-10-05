@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.*
+import cn.csnbgsh.herbarium.entity.GetSpecimenByBarcode
 import cn.csnbgsh.herbarium.entity.GetWorkSheet
 import com.cylee.androidlib.net.Net
 import com.cylee.androidlib.net.NetError
@@ -78,6 +79,32 @@ class ScanActivity : CaptureActivity () {
                         dialogUtil.dismissWaitingDialog()
                         startActivity(AddWorkSheetActivity.createIntent(this@ScanActivity, inputText))
                         finish()
+                    }
+                })
+            }
+        }
+
+        bind<View>(R.id.sel_confirm_specimen).setOnClickListener {
+            var inputText = mHandInput.text.toString()
+            if (TextUtils.isEmpty(inputText)) { // 输入为空
+                toast("输入为空")
+            } else {
+                dialogUtil.showWaitingDialog(this, "查询中...")
+                if (TextUtils.isDigitsOnly(inputText)) {
+                    for (i in 0..6-inputText.length) {
+                        inputText = 0.toString()+inputText
+                    }
+                    inputText = "CSH"+inputText
+                }
+                Net.post(this, GetSpecimenByBarcode.Input.buildInput(inputText), object : Net.SuccessListener<GetSpecimenByBarcode>() {
+                    override fun onResponse(response: GetSpecimenByBarcode?) {
+                        dialogUtil.dismissWaitingDialog()
+                        startActivity(SpecimenDetailActivity.createIntent(this@ScanActivity, response!!))
+                        finish()
+                    }
+                }, object : Net.ErrorListener() {
+                    override fun onErrorResponse(e: NetError?) {
+                        dialogUtil.dismissWaitingDialog()
                     }
                 })
             }

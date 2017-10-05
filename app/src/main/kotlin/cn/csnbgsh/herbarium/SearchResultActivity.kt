@@ -117,7 +117,7 @@ class SearchResultActivity : BaseActivity() {
     inner class Holder : BaseViewHolder<SearchPage.SearchItem> {
         lateinit var text : TextView
         var index = 0
-        constructor(itemView: View?) : super(itemView)
+
         constructor(parent: ViewGroup?, layoutId: Int) : super(parent, layoutId)
 
         override fun onInitializeView() {
@@ -139,7 +139,7 @@ class SearchResultActivity : BaseActivity() {
 
         override fun onItemViewClick(data: SearchPage.SearchItem?) {
             super.onItemViewClick(data)
-            startActivity(ResultDetailActivity.createIntent(this@SearchResultActivity, data!!))
+            startActivity(ResultDetailActivity.createIntent(this@SearchResultActivity, data!!.ID, data!!.CollectID))
         }
     }
 }

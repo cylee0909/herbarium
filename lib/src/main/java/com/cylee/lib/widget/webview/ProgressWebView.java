@@ -2,11 +2,14 @@ package com.cylee.lib.widget.webview;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.CookieManager;
+import android.webkit.WebSettings;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -104,6 +107,14 @@ public class ProgressWebView extends RelativeLayout implements OnWebViewEventLis
                 return false;
             }
         });
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            CookieManager.getInstance().setAcceptThirdPartyCookies(mWebView,true);
+            CookieManager.getInstance().removeSessionCookies(null);
+        }else{
+            CookieManager.getInstance().removeSessionCookie();
+            CookieManager.getInstance().removeExpiredCookie();
+        }
+        CookieManager.getInstance().setAcceptCookie(true);
         mWebView.init(this);
     }
 

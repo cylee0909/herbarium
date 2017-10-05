@@ -25,15 +25,17 @@ import java.io.File
  */
 class ResultDetailActivity : BaseActivity() {
     companion object {
-        val SEARCH_ITEM = "SEARCH_ITEM"
-        fun createIntent(context: Context, item: SearchPage.SearchItem): Intent {
+        val ITEM_ID = "ITEM_ID"
+        val ITEM_COLLECT_ID = "ITEM_COLLECT_ID"
+        fun createIntent(context: Context, id: String, collectId : String): Intent {
             var intent =  Intent(context, ResultDetailActivity::class.java)
-            intent.putExtra(SEARCH_ITEM, item)
+            intent.putExtra(ITEM_ID, id)
+            intent.putExtra(ITEM_COLLECT_ID, collectId)
             return intent
         }
     }
-
-    lateinit var item : SearchPage.SearchItem
+    var mId = ""
+    var mCollectId = ""
     lateinit var switchViewUtil : SwitchViewUtil
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +43,8 @@ class ResultDetailActivity : BaseActivity() {
         bind<View>(R.id.ard_back).setOnClickListener {
             finish()
         }
-        item = intent.getSerializableExtra(SEARCH_ITEM) as SearchPage.SearchItem
+        mId = intent.getStringExtra(ITEM_ID)
+        mCollectId = intent.getStringExtra(ITEM_COLLECT_ID)
         switchViewUtil = SwitchViewUtil(this, R.id.ard_content_container, View.OnClickListener {
             loadData()
         })
@@ -50,7 +53,7 @@ class ResultDetailActivity : BaseActivity() {
 
     fun loadData() {
         switchViewUtil.showView(SwitchViewUtil.ViewType.LOADING_VIEW)
-        Net.post(this, ResultDetail.Input.buildInput(item.ID, item.CollectID), object : Net.SuccessListener<ResultDetail>() {
+        Net.post(this, ResultDetail.Input.buildInput(mId, mCollectId), object : Net.SuccessListener<ResultDetail>() {
             override fun onResponse(response: ResultDetail?) {
                 switchViewUtil.showView(SwitchViewUtil.ViewType.MAIN_VIEW)
                 refresh(response)

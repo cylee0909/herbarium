@@ -3,10 +3,8 @@ package com.cylee.lib.widget.webview;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
-import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
@@ -17,6 +15,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.cylee.lib.R;
+
+import java.util.Map;
 
 public class CustomWebView extends AbsDownloadWebView {
 	private OnWebViewEventListener mEventListener; //事件监听器
@@ -54,11 +54,28 @@ public class CustomWebView extends AbsDownloadWebView {
 	
 	@Override
 	public void loadUrl(String url) {
+		CookieHelper.setupCookie(url);
 		mIsErrorPage = false;
 		initCacheMode();
 		super.loadUrl(url);
 	}
-	
+
+	@Override
+	public void loadUrl(String url, Map<String, String> additionalHttpHeaders) {
+		CookieHelper.setupCookie(url);
+		mIsErrorPage = false;
+		initCacheMode();
+		super.loadUrl(url, additionalHttpHeaders);
+	}
+
+	@Override
+	public void loadDataWithBaseURL(String baseUrl, String data, String mimeType, String encoding, String historyUrl) {
+		CookieHelper.setupCookie(baseUrl);
+		mIsErrorPage = false;
+		initCacheMode();
+		super.loadDataWithBaseURL(baseUrl, data, mimeType, encoding, historyUrl);
+	}
+
 	/**
 	 * 初始化缓存
 	 */
@@ -82,6 +99,7 @@ public class CustomWebView extends AbsDownloadWebView {
 		}
 	}
 	public void reload() {
+		CookieHelper.setupCookie(getUrl());
 		mIsErrorPage = false;
 		super.reload();
 	}

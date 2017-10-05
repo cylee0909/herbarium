@@ -8,7 +8,7 @@
         android:gravity="center"
         android:textSize="22sp"
         android:textColor="@color/common_title"
-        android:text="设置"/>
+        android:text="账号"/>
     <View
         android:id="@+id/as_line_view"
         android:layout_width="match_parent"
@@ -67,4 +67,11 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="6dp"/>
+
+    <Button
+        android:id="@+id/as_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/as_host_edit"
+        android:text="登陆"/>
 </RelativeLayout>

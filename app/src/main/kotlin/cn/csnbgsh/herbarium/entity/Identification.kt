@@ -1,0 +1,36 @@
+package cn.csnbgsh.herbarium.entity
+
+import java.io.Serializable
+
+class Identification : Serializable {
+    var ID = ""
+    var MuseumID = ""
+    var CollectID = ""
+    var SpecimenID = ""
+    var Collector = ""
+    var CollectSN = ""
+    var TaxonLevel = ""
+    var SPID = ""
+    var Family = ""
+    var Genus = ""
+    var FamilyCName = ""
+    var GenusCName = ""
+    var Name = ""
+    var CName = ""
+    var SpName = ""
+    var SpNameAuthor = ""
+    var SubSp = ""
+    var SubSpAuthor = ""
+    var Author = ""
+    var IdentUsername = ""
+    var IdentRealName = ""
+    var IdentTime = ""
+    var IdentTime_origin = ""
+    var Cause = ""
+    var Description = ""
+    var IdentWay = ""
+    var Editor = ""
+    var EditorMemo = ""
+    var CreateTime = ""
+    var UpdateTime = ""
+}

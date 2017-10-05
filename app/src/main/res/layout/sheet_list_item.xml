@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <cn.csnbgsh.herbarium.widget.EasySwipeMenuLayout
+        android:id="@+id/sli_swip_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:contentView="@+id/sli_text"
+        app:rightMenuView="@+id/sli_del_text">
+        <com.cylee.lib.widget.StateTextView
+            android:id="@+id/sli_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:padding="15dp"/>
+        <com.cylee.lib.widget.StateTextView
+            android:id="@+id/sli_del_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="删除"
+            android:gravity="center"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:background="#EEFF0000"/>
+    </cn.csnbgsh.herbarium.widget.EasySwipeMenuLayout>
+</LinearLayout>

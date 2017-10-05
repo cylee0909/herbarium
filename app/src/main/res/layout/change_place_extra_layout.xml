@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+    <EditText
+        android:id="@+id/cpel_input_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="扫描标本柜的条码或者输入"
+        android:textColorHint="#666666"
+        android:textColor="@color/common_title"/>
+    <Button
+        android:id="@+id/cpel_confirm_batch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="设定标本保藏位置"
+        android:textColor="@color/common_title"/>
+</LinearLayout>

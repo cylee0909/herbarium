@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.cylee.androidlib.base.BaseActivity
+import com.cylee.androidlib.net.Config
 
 /**
  * Created by cylee on 16/3/31.
@@ -16,15 +17,14 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             var url : String = ""
             var title : String = ""
             constructor(url : String, title : String) {
-                this.url = url;
-                this.title = title;
+                this.url = url
+                this.title = title
             }
         }
         var URL_MAP = mapOf<Int, URLItem>(
-                R.id.am_search_linear to URLItem("Http://www.baidu.com", "查询"),
-                R.id.am_message_linear to URLItem("Http://www.baidu.com", "消息"),
-                R.id.am_stat_linear to URLItem("Http://www.baidu.com", "统计"),
-                R.id.am_collect_linear to URLItem("Http://www.baidu.com", "收藏")
+                R.id.am_message_linear to URLItem(Config.getHost()+"/Message.html", "消息"),
+                R.id.am_stat_linear to URLItem(Config.getHost()+"/Statis.html", "统计"),
+                R.id.am_collect_linear to URLItem(Config.getHost()+"/MySpecimens.html", "收藏")
         )
     }
 
@@ -71,7 +71,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 startActivity(ScanActivity.createIntent(this, 0, "标本"))
             }
             R.id.am_cabinet_linear -> {
-                startActivity(ScanActivity.createIntent(this, 1, "标本柜"))
+                startActivity(CabinetActivity.createIntent(this))
             }
             R.id.am_stat_linear -> {
                 var urlItem = URL_MAP.get(R.id.am_stat_linear)

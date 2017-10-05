@@ -145,7 +145,7 @@ class AddWorkSheetActivity : TitleActivity() {
         }
         suggestWindow?.setOnItemClickListener { adapterView, view, i, l ->
             suggestWindow?.dismiss()
-            text.setText(suggestUsers[i].Username)
+            text.setText(suggestUsers[i].Group_Name)
         }
         suggestWindow?.anchorView = text
         suggestWindow?.width = text.width
@@ -169,7 +169,7 @@ class AddWorkSheetActivity : TitleActivity() {
                 oldView = convertView
                 holder = oldView.getTag() as Holder
             }
-            holder.text.text = suggestUsers[position].Username
+            holder.text.text = suggestUsers[position].Group_Name
             return oldView
         }
 

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="12dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <com.cylee.androidlib.net.RecyclingImageView
+            android:id="@+id/img"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="2"/>
+        <TextView
+            android:id="@+id/asd_specimen_info"
+            android:layout_width="0dp"
+            android:paddingLeft="5dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:lineSpacingExtra="6dp"
+            android:textSize="14sp"
+            tools:text="标本的摘要信息 \n 葛斌杰王正伟,GBJ-001956;采集地点:湖南长沙马王堆 2015-12-31\n鉴定信息3条\n当前进度:标本缓存时间"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="120dp">
+        <TextView
+            android:id="@+id/asd_time_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="14sp"
+            android:lineSpacingExtra="5dp"
+            tools:text="* 两天前 许源完成制作\n* 18小时前葛冰洁完成消毒\n* 18小时前葛冰洁完成消毒\n* 18小时前葛冰洁完成消毒\n* 18小时前葛冰洁完成消毒"/>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/asd_add_ident"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="添加鉴定"/>
+        <Button
+            android:id="@+id/asd_update_place"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="修改保藏位置"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

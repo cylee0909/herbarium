@@ -35,6 +35,12 @@
         <activity android:name=".WorkSheetDetailActivity"/>
         <activity android:name=".ProcessEditActivity"/>
         <activity android:name=".AddWorkSheetActivity"/>
+        <activity android:name=".SheetListActivity"/>
+        <activity android:name=".SpecimenDetailActivity"/>
+        <activity android:name=".AddIdentActivity"/>
+        <activity android:name=".ChangePlaceActivity"/>
+        <activity android:name=".CabinetActivity"/>
+        <activity android:name=".BoxDetailActivity"/>
     </application>
 
 </manifest>

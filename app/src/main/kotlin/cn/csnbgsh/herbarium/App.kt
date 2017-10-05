@@ -2,6 +2,7 @@ package cn.csnbgsh.herbarium
 
 import android.app.Application
 import android.content.Context
+import android.text.TextUtils
 import com.cylee.androidlib.base.BaseApplication
 import com.cylee.androidlib.net.Config
 import com.cylee.androidlib.net.Net
@@ -18,7 +19,11 @@ class App :Application() {
         EX.context = applicationContext
         Settings.init(this)
         DirectoryManager.init()
-        Config.initHost("http://csh.ibiodiversity.net")
+        var host = Settings.getString(SettingActivity.SETTING_KEY_HOST)
+        if (TextUtils.isEmpty(host)) {
+            host = "http://csh.ibiodiversity.net"
+        }
+        Config.initHost(host)
         Net.init(this)
     }
 }

@@ -68,7 +68,7 @@ public class CaptureActivity extends Activity implements Callback {
 		initTitle();
 	}
 
-	private void initTitle() {
+	protected void initTitle() {
 		mBack = (TextView) findViewById(R.id.qcs_exit);
 		mBack.setOnClickListener(new OnClickListener() {
 

@@ -12,6 +12,8 @@ import android.widget.Button
 import android.widget.TextView
 import cn.csnbgsh.herbarium.entity.DelWorkSheetProcess
 import cn.csnbgsh.herbarium.entity.GetWorkSheet
+import cn.csnbgsh.herbarium.entity.ISpecimenListItem
+import cn.csnbgsh.herbarium.entity.Process
 import cn.csnbgsh.herbarium.widget.EasySwipeMenuLayout
 import cn.lemon.view.RefreshRecyclerView
 import cn.lemon.view.adapter.BaseViewHolder
@@ -27,6 +29,7 @@ import java.util.*
 class WorkSheetDetailActivity : TitleActivity() {
     companion object {
         var REQ_PROCESS_CODE = 1
+        var REQ_SHEET_LIST = 2
         val INPUT_WORK_SHEET = "INPUT_WORK_SHEET"
         fun createIntent(context: Context, worksheet: GetWorkSheet): Intent {
             var intent =  Intent(context, WorkSheetDetailActivity::class.java)
@@ -39,7 +42,7 @@ class WorkSheetDetailActivity : TitleActivity() {
     lateinit var mRecyclerView: RefreshRecyclerView
     lateinit var mAdapter : InnerAdapter
     var dialogUtil = DialogUtil()
-    var mData:MutableList<GetWorkSheet.Process> = ArrayList()
+    var mData:MutableList<Process> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,13 +69,30 @@ class WorkSheetDetailActivity : TitleActivity() {
         bind<Button>(R.id.awd_processes).setOnClickListener {
             startActivityForResult(ProcessEditActivity.createIntent(this, workSheet.WorkSheet.SN), REQ_PROCESS_CODE)
         }
+
+        bind<View>(R.id.awd_sheets).setOnClickListener {
+            var sheetItem = SheetListActivity.SheetItem()
+            sheetItem.id = workSheet.WorkSheet.SN
+            sheetItem.datas = workSheet.Specimens as MutableList<ISpecimenListItem>
+            startActivityForResult(SheetListActivity.createIntent(this, sheetItem), REQ_SHEET_LIST)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQ_PROCESS_CODE && resultCode == Activity.RESULT_OK) {
             refreshProcess()
+        } else if (requestCode == REQ_SHEET_LIST) {
+            refreshWorkSheet()
         }
+    }
+
+    private fun refreshWorkSheet() {
+        Net.post(this@WorkSheetDetailActivity, GetWorkSheet.Input.buildInput(workSheet.WorkSheet.SN), object : Net.SuccessListener<GetWorkSheet>() {
+            override fun onResponse(response: GetWorkSheet?) {
+                workSheet = response!!
+            }
+        }, null)
     }
 
     private fun refreshProcess() {
@@ -84,14 +104,14 @@ class WorkSheetDetailActivity : TitleActivity() {
         }, null)
     }
 
-    inner class InnerAdapter: RecyclerAdapter<GetWorkSheet.Process> {
-        constructor(context: Context?, data: MutableList<GetWorkSheet.Process>?) : super(context, data)
+    inner class InnerAdapter: RecyclerAdapter<Process> {
+        constructor(context: Context?, data: MutableList<Process>?) : super(context, data)
 
-        override fun onCreateBaseViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<GetWorkSheet.Process> {
+        override fun onCreateBaseViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Process> {
             return Holder(parent, R.layout.worksheet_detail_process)
         }
 
-        override fun onBindViewHolder(holder: BaseViewHolder<GetWorkSheet.Process>?, position: Int) {
+        override fun onBindViewHolder(holder: BaseViewHolder<Process>?, position: Int) {
             if (holder is Holder) {
                 holder.index = position
             }
@@ -99,7 +119,7 @@ class WorkSheetDetailActivity : TitleActivity() {
         }
     }
 
-    inner class Holder : BaseViewHolder<GetWorkSheet.Process> {
+    inner class Holder : BaseViewHolder<Process> {
         lateinit var text : TextView
         lateinit var delText : TextView
         lateinit var sml: EasySwipeMenuLayout
@@ -114,7 +134,7 @@ class WorkSheetDetailActivity : TitleActivity() {
             sml  = findViewById(R.id.wdp_swip_menu)
         }
 
-        override fun setData(data: GetWorkSheet.Process) {
+        override fun setData(data: Process) {
             super.setData(data)
             if (index % 2 == 0) {
                 text.setBackgroundColor(0xffffffff.toInt())
@@ -140,7 +160,7 @@ class WorkSheetDetailActivity : TitleActivity() {
             text.text = "${data.EventTime}, ${data.Editor}${data.Step}"
         }
 
-        override fun onItemViewClick(data: GetWorkSheet.Process?) {
+        override fun onItemViewClick(data: Process?) {
             super.onItemViewClick(data)
         }
     }

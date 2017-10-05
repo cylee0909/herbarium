@@ -1,6 +1,7 @@
 package com.cylee.androidlib.net;
 
 import android.text.TextUtils;
+import android.webkit.CookieManager;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.ErrorCode;
@@ -9,17 +10,22 @@ import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.ResponseContentError;
+import com.android.volley.ResponseDelivery;
+import com.android.volley.ServerError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.RetryPolicyFactory;
 import com.cylee.androidlib.GsonBuilderFactory;
 import com.cylee.androidlib.util.DirectoryManager;
 import com.cylee.androidlib.util.FileUtils;
+import com.cylee.androidlib.util.Settings;
 import com.cylee.androidlib.util.TextUtil;
 import com.google.jtm.Gson;
 import com.google.jtm.JsonSyntaxException;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.entity.mime.Header;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.entity.mime.content.FileBody;
@@ -263,7 +269,22 @@ public class HWRequest<T> extends Request<T> {
             cookies = new ArrayList<>();
         }
         cookies.add("requestId="+mRequestID);
+        cookies.add(Settings.getString("cookie"));
         return TextUtils.join("; ",cookies);
+    }
+
+    @Override
+    public byte[] handleResponse(HttpResponse response, ResponseDelivery delivery) throws IOException, ServerError {
+        if (getUrl().contains("userole.ashx")) {
+            org.apache.http.Header cookieHead = response.getFirstHeader("Set-Cookie");
+            if (cookieHead != null) {
+                String cookie = cookieHead.getValue();
+                if (!TextUtils.isEmpty(cookie)) {
+                    Settings.putString("cookie", cookie);
+                }
+            }
+        }
+        return super.handleResponse(response, delivery);
     }
 
     @Override

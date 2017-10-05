@@ -45,8 +45,8 @@ public final class CameraManager {
 
   private static final int MIN_FRAME_WIDTH = 240;
   private static final int MIN_FRAME_HEIGHT = 240;
-  private static final int MAX_FRAME_WIDTH = ScreenUtil.dp2px(320);
-  private static final int MAX_FRAME_HEIGHT = ScreenUtil.dp2px(330);
+  private static int MAX_FRAME_WIDTH = ScreenUtil.dp2px(320);
+  private static int MAX_FRAME_HEIGHT = ScreenUtil.dp2px(320);
 
   private static CameraManager cameraManager;
 
@@ -87,6 +87,7 @@ public final class CameraManager {
     if (cameraManager == null) {
       cameraManager = new CameraManager(context);
     }
+    cameraManager.resetMaxDimen();
   }
 
   /**
@@ -112,6 +113,20 @@ public final class CameraManager {
 
     previewCallback = new PreviewCallback(configManager, useOneShotPreviewCallback);
     autoFocusCallback = new AutoFocusCallback();
+  }
+
+  public void setMaxDimen(int width, int height) {
+    MAX_FRAME_WIDTH = width;
+    MAX_FRAME_HEIGHT = height;
+    framingRect = null;
+    framingRectInPreview = null;
+  }
+
+  public void resetMaxDimen() {
+    MAX_FRAME_HEIGHT = ScreenUtil.dp2px(320);
+    MAX_FRAME_WIDTH = ScreenUtil.dp2px(320);
+    framingRect = null;
+    framingRectInPreview = null;
   }
 
   /**

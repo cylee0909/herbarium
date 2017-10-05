@@ -34,33 +34,7 @@ class GetWorkSheet : Serializable, IPureEntity {
     }
 
     var WorkSheet = WorkSheet()
-    var Specimens = ArrayList<Specimen>()
+    var Specimens = ArrayList<SheetSpecimen>()
     var Processes = ArrayList<Process>()
 
-    class Specimen : Serializable{
-        val GUID = ""
-        val SheetSN = ""
-        val Barcode = ""
-        val CollectSN = ""
-        val CollectTeam = ""
-        val Mounted = ""
-        val ReserveType = ""
-        val Editor = ""
-        val CreateTime = ""
-        val UpdateTime = ""
-    }
-
-    class Process : Serializable{
-        val GUID = ""
-        val SN = ""
-        val Count = -1
-        val Step = ""
-        val Treatment = ""
-        val Memo = ""
-        val Staff = ""
-        val EventTime = ""
-        val Editor = ""
-        val CreateTime = ""
-        val UpdateTime = ""
-    }
 }
