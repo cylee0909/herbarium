@@ -17,6 +17,7 @@ import com.cylee.androidlib.net.RecyclingImageView
 import com.cylee.androidlib.util.DirectoryManager
 import com.cylee.androidlib.util.TextUtil
 import com.cylee.androidlib.view.SwitchViewUtil
+import com.cylee.lib.widget.dialog.DialogUtil
 import com.github.chrisbanes.photoview.PhotoView
 import java.io.File
 
@@ -49,6 +50,22 @@ class ResultDetailActivity : BaseActivity() {
             loadData()
         })
         loadData()
+
+        bind<View>(R.id.ard_share).setOnClickListener {
+            share()
+        }
+
+        bind<View>(R.id.ard_collect).setOnClickListener {
+            collect()
+        }
+    }
+
+    fun collect() {
+
+    }
+
+    fun share() {
+
     }
 
     fun loadData() {

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e8eef7">
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/ard_title_content"
         android:layout_width="match_parent"
         android:layout_height="50dp">
@@ -20,13 +20,30 @@
             android:id="@+id/ard_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="50dp"
             android:text="标本详情"
             android:singleLine="true"
             android:ellipsize="end"
             android:textSize="20sp"
             android:gravity="center"/>
-    </LinearLayout>
+        <com.cylee.lib.widget.StateTextView
+            android:id="@+id/ard_collect"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="收藏"/>
+        <com.cylee.lib.widget.StateTextView
+            android:id="@+id/ard_share"
+            android:layout_toLeftOf="@+id/ard_collect"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="分享"/>
+    </RelativeLayout>
     <LinearLayout
         android:id="@+id/ard_content_container"
         android:layout_width="match_parent"
