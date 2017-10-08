@@ -11,6 +11,7 @@ import com.cylee.androidlib.base.BaseActivity
 import com.cylee.androidlib.net.Config
 import com.cylee.androidlib.net.Net
 import com.cylee.androidlib.net.NetError
+import com.cylee.androidlib.util.PreferenceUtils
 import com.cylee.androidlib.util.Settings
 
 /**
@@ -58,6 +59,7 @@ class SettingActivity : BaseActivity() {
                 override fun onResponse(response: Login?) {
                     if (!TextUtils.isEmpty(Settings.getString("cookie"))) {
                         toast("登陆成功")
+                        finish()
                     } else {
                         toast("登陆失败")
                     }
@@ -70,6 +72,12 @@ class SettingActivity : BaseActivity() {
             })
         } else {
             toast("地址错误")
+        }
+    }
+
+    override fun onBackPressed() {
+        if (!TextUtils.isEmpty(Settings.getString("cookie"))) {
+            super.onBackPressed()
         }
     }
 

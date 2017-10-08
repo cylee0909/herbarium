@@ -8,6 +8,7 @@ import android.os.Build;
 import com.android.volley.ErrorCode;
 import com.android.volley.Network;
 import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -23,6 +24,7 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.ImageLruCache;
 import com.android.volley.toolbox.RetryPolicyFactory;
 import com.cylee.androidlib.base.BaseActivity;
+import com.cylee.androidlib.base.BaseApplication;
 import com.cylee.androidlib.base.Callback;
 import com.cylee.androidlib.thread.Worker;
 import com.cylee.androidlib.util.DirectoryManager;
@@ -30,6 +32,7 @@ import com.cylee.androidlib.util.FileUtils;
 import com.cylee.androidlib.util.NetUtils;
 import com.cylee.androidlib.util.TaskUtils;
 import com.cylee.androidlib.util.TextUtil;
+import com.cylee.lib.widget.webview.BaseWebActivity;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -83,7 +86,9 @@ public class Net {
 
         final public void onErrorResponse(VolleyError error) {
             if (error != null) {
-                if (error instanceof TimeoutError) {
+                if (error instanceof ParseError) {
+                    onErrorResponse(new NetError(ErrorCode.CLIENT_PARSE_EXCEPTION, error));
+                } else if (error instanceof TimeoutError) {
                     onErrorResponse(new NetError(ErrorCode.CLIENT_TIMEOUT_EXCEPTION, error));
                 } else if (error instanceof ResponseContentError) {
                     onErrorResponse(new NetError(((ResponseContentError) error).getErrorCode(), error));
@@ -415,12 +420,20 @@ public class Net {
                         ((BaseActivity) context).removeListenerRef(requestId2);
                     }
                 }
-                if (context != null && errorListener != null) {
+                if (context != null) {
                     if (context instanceof Activity && ((Activity) context).isFinishing()) {
                         return;
                     }
                     try {
-                        errorListener.onErrorResponse(e);
+                        if (e.getCause() instanceof ParseError) {
+                            String msg = e.getCause().getMessage();
+                            if (msg != null && msg.matches(".*?没有\\w*权限.*?")) {
+                                BaseApplication.getInstance().onAccountLogout(context);
+                            }
+                        }
+                        if (errorListener != null) {
+                            errorListener.onErrorResponse(e);
+                        }
                     } catch (Throwable t) {
                         t.printStackTrace();
                     }

@@ -92,7 +92,6 @@ class ProcessEditActivity : TitleActivity() {
             suggestWindow = ListPopupWindow(this)
             with(suggestWindow!!) {
                 softInputMode = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-                setBackgroundDrawable(BitmapDrawable())
                 setAdapter(SuggestAdapter())
                 setOnItemClickListener { adapterView, view, i, l ->
                     dismiss()
@@ -140,7 +139,7 @@ class ProcessEditActivity : TitleActivity() {
             var holder : Holder
             var oldView : View
             if (convertView == null) {
-                oldView = View.inflate(parent?.context, R.layout.step_suggest_item, null)
+                oldView = View.inflate(parent?.context, android.R.layout.simple_list_item_1, null)
                 oldView.layoutParams = AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ScreenUtil.dp2px(40f))
                 holder = Holder()

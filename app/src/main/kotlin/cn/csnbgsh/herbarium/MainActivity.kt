@@ -86,7 +86,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 }
             }
             R.id.am_setting_icon -> {
-                startActivity(Intent(this, SettingActivity::class.java))
+                startActivity(SettingActivity.createIntent(this))
             }
         }
     }

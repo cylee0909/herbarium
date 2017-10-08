@@ -4,22 +4,28 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.ViewGroup
+import android.widget.*
+import cn.csnbgsh.herbarium.entity.GetUsers
 import cn.csnbgsh.herbarium.entity.ResultDetail
 import cn.csnbgsh.herbarium.entity.SearchPage
+import cn.csnbgsh.herbarium.widget.CollectLayout
 import com.android.volley.FileDownloadRequest
 import com.cylee.androidlib.base.BaseActivity
+import com.cylee.androidlib.net.Config
 import com.cylee.androidlib.net.Net
 import com.cylee.androidlib.net.NetError
 import com.cylee.androidlib.net.RecyclingImageView
 import com.cylee.androidlib.util.DirectoryManager
+import com.cylee.androidlib.util.ScreenUtil
 import com.cylee.androidlib.util.TextUtil
 import com.cylee.androidlib.view.SwitchViewUtil
 import com.cylee.lib.widget.dialog.DialogUtil
 import com.github.chrisbanes.photoview.PhotoView
 import java.io.File
+import java.util.*
 
 /**
  * Created by cylee on 2017/9/15.
@@ -38,6 +44,7 @@ class ResultDetailActivity : BaseActivity() {
     var mId = ""
     var mCollectId = ""
     lateinit var switchViewUtil : SwitchViewUtil
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.acticity_result_detail)
@@ -61,11 +68,23 @@ class ResultDetailActivity : BaseActivity() {
     }
 
     fun collect() {
-
+        var dialogUtil = DialogUtil()
+        var collectView = View.inflate(this, R.layout.collect_layout, null) as CollectLayout
+        collectView.id = this.mId
+        collectView.closeCallBack = {
+            dialogUtil.dismissViewDialog()
+        }
+        dialogUtil.showRawViewDialog(this, collectView, true, true, null, Gravity.CENTER)
     }
 
     fun share() {
-
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_SUBJECT, "分享")
+        intent.putExtra(Intent.EXTRA_TEXT, "${Config.getHost()}/${mId}.specimen")
+        intent.putExtra(Intent.EXTRA_TITLE, "标本分享")
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(Intent.createChooser(intent, "请选择"))
     }
 
     fun loadData() {
