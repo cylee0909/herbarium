@@ -30,4 +30,13 @@ class InitActivity : BaseActivity() {
             startActivityForResult(SettingActivity.createIntent(this), REQ_LOGIN)
         }
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQ_LOGIN) {
+            var intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
 }

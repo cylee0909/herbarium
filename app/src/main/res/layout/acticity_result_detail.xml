@@ -52,25 +52,27 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center">
             <TextView
                 android:id="@+id/ard_barcode"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:text="CSH000007"
                 android:textSize="18sp"
                 android:textColor="#333333"
                 android:gravity="center_vertical"
+                android:drawablePadding="5dp"
                 android:drawableLeft="@drawable/ic_barcode"
                 android:layout_height="match_parent" />
             <TextView
                 android:id="@+id/ard_achieve"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:textSize="18sp"
                 android:textColor="#333333"
                 android:gravity="center_vertical"
+                android:layout_marginLeft="30dp"
                 android:text="190-23"
+                android:drawablePadding="5dp"
                 android:drawableLeft="@drawable/ic_achieve"
                 android:layout_height="match_parent" />
         </LinearLayout>
