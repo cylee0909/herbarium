@@ -70,14 +70,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="查看搜藏" />
+                android:text="查看收藏" />
 
             <Button
                 android:id="@+id/cl_collect"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="搜藏标本" />
+                android:text="收藏标本" />
         </LinearLayout>
     </LinearLayout>
 </cn.csnbgsh.herbarium.widget.CollectLayout>

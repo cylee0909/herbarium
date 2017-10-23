@@ -29,7 +29,7 @@
         android:id="@+id/am_line_view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#000000"
+        android:background="#55f5f5f5"
         android:layout_below="@+id/am_title_text"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"/>

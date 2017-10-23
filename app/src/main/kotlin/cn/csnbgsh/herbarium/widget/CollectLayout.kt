@@ -46,7 +46,7 @@ class CollectLayout : LinearLayout {
 
             Net.post(context, AddSpecimen2MySpecimens.Input.buildInput(id, tag), object : Net.SuccessListener<AddSpecimen2MySpecimens>() {
                 override fun onResponse(response: AddSpecimen2MySpecimens?) {
-                    toast("搜藏成功")
+                    toast("收藏成功")
                     closeCallBack?.invoke()
                 }
             }, object : Net.ErrorListener() {
@@ -58,7 +58,7 @@ class CollectLayout : LinearLayout {
 
         bind<View>(R.id.cl_list_collects).setOnClickListener {
             closeCallBack?.invoke()
-            context.startActivity(WebActivity.createIntent(context, Config.getHost()+"/MySpecimens.html", "搜藏"))
+            context.startActivity(WebActivity.createIntent(context, Config.getHost()+"/MySpecimens.html", "收藏"))
         }
     }
 

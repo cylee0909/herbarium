@@ -11,7 +11,6 @@ import com.cylee.androidlib.base.BaseActivity
 import com.cylee.androidlib.net.Config
 import com.cylee.androidlib.net.Net
 import com.cylee.androidlib.net.NetError
-import com.cylee.androidlib.util.PreferenceUtils
 import com.cylee.androidlib.util.Settings
 
 /**
@@ -39,7 +38,7 @@ class SettingActivity : BaseActivity() {
         mHostEdit = bind(R.id.as_host_edit)
 
         mNameEdit?.setText(Settings.getString(SETTING_KEY_NAME))
-//        mPasswordEdit?.setText(Settings.getString(SETTING_KEY_PASSWORD))
+        mPasswordEdit?.setText(Settings.getString(SETTING_KEY_PASSWORD))
         mHostEdit?.setText(Config.getHost())
 
         bind<Button>(R.id.as_login).setOnClickListener {
@@ -84,6 +83,6 @@ class SettingActivity : BaseActivity() {
     override fun onStop() {
         super.onStop()
         Settings.putString(SETTING_KEY_NAME, mNameEdit?.text.toString())
-//        Settings.putString(SETTING_KEY_PASSWORD, mPasswordEdit?.text.toString())
+        Settings.putString(SETTING_KEY_PASSWORD, mPasswordEdit?.text.toString())
     }
 }

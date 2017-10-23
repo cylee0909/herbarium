@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:background="#88000000"
     android:padding="20dp">
     <EditText
         android:id="@+id/slel_input_edit"
@@ -11,15 +13,15 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:hint="手工输入区"
-        android:textColorHint="#666666"
-        android:textColor="@color/common_title"/>
+        android:textColorHint="#fafafa"
+        android:textColor="@color/white"/>
     <Button
         android:id="@+id/slel_confirm_batch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:text="添加"
-        android:textColor="@color/common_title"/>
+        android:textColor="@color/white"/>
     <cn.lemon.view.RefreshRecyclerView
         android:id="@+id/slel_recycler_view"
         android:layout_marginTop="6dp"

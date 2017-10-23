@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
+import com.cylee.androidlib.util.PreferenceUtils
+import com.cylee.androidlib.util.Settings
 import com.cylee.lib.widget.webview.BaseWebActivity
 
 /**
@@ -39,7 +41,7 @@ class WebActivity : BaseWebActivity{
     }
 
     override fun getContentUrl(): String? {
-        return mUrl;
+        return mUrl+"?user=${Settings.getString(SettingActivity.SETTING_KEY_NAME)}"
     }
 
     override fun getTopTitle(): String? {

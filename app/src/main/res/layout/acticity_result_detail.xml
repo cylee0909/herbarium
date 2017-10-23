@@ -50,10 +50,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <LinearLayout
+            android:id="@+id/ard_info_container"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:background="#55fafafa">
             <TextView
                 android:id="@+id/ard_barcode"
                 android:layout_width="wrap_content"

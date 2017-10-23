@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import cn.csnbgsh.herbarium.entity.ChangeSpecimenBox
 import cn.csnbgsh.herbarium.entity.GetUsers
 import cn.csnbgsh.herbarium.entity.ResultDetail
 import cn.csnbgsh.herbarium.entity.SearchPage
@@ -65,6 +66,41 @@ class ResultDetailActivity : BaseActivity() {
         bind<View>(R.id.ard_collect).setOnClickListener {
             collect()
         }
+
+        bind<View>(R.id.ard_info_container).setOnClickListener {
+            changeInfo()
+        }
+    }
+
+    fun changeInfo() {
+        var dialogUtil = DialogUtil()
+        var collectView = View.inflate(this, R.layout.change_info_layout, null)
+        var barcodeEdit = collectView.bind<EditText>(R.id.cil_barcode)
+        var boxEdit = collectView.bind<EditText>(R.id.cil_box)
+        barcodeEdit.setText(bind<TextView>(R.id.ard_barcode).text.toString())
+        boxEdit.setText(bind<TextView>(R.id.ard_achieve).text.toString())
+        barcodeEdit.setSelection(barcodeEdit.text.length)
+        dialogUtil.showViewDialog(this, "修改保藏位置", "取消", "确认", object : DialogUtil.ButtonClickListener {
+            override fun OnLeftButtonClick() {
+            }
+
+            override fun OnRightButtonClick() {
+                var box = boxEdit.text.toString()
+                var barCode = barcodeEdit.text.toString()
+                dialogUtil.showWaitingDialog(this@ResultDetailActivity, "修改中...")
+                Net.post(this@ResultDetailActivity, ChangeSpecimenBox.Input.buildInput(box, barCode), object : Net.SuccessListener<ChangeSpecimenBox>() {
+                    override fun onResponse(response: ChangeSpecimenBox?) {
+                        dialogUtil.dismissWaitingDialog()
+                        toast("修改成功")
+                    }
+                }, object : Net.ErrorListener() {
+                    override fun onErrorResponse(e: NetError?) {
+                        dialogUtil.dismissWaitingDialog()
+                        toast("修改失败,请稍后重试")
+                    }
+                })
+            }
+        },collectView)
     }
 
     fun collect() {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/wood_bg">
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/wood_2">
     <TextView
         android:id="@+id/as_title_text"
         android:layout_width="match_parent"
@@ -74,4 +74,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/as_host_edit"
         android:text="登陆"/>
+
+    <TextView
+        android:layout_below="@+id/as_login"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#88eeeeee"
+        android:text="Powered by iBiodiversity.net\nSupport: 2332387181@qq.com"/>
 </RelativeLayout>

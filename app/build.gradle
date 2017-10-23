@@ -12,9 +12,22 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    signingConfigs {
+        release {
+            storeFile file("cylee.keystore")
+            storePassword "140547"
+            keyAlias "cylee"
+            keyPassword "140547"
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
@@ -34,7 +47,6 @@ dependencies {
     compile 'cn.lemon:RefreshRecyclerView:1.2.0'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.21'
     compile 'com.github.chrisbanes:PhotoView:2.0.0'
-//    compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.2.5'
 }
 
 buildscript {
