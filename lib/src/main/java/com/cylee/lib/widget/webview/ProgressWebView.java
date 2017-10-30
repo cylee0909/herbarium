@@ -253,6 +253,10 @@ public class ProgressWebView extends RelativeLayout implements OnWebViewEventLis
         mWebView.loadUrl(url);
     }
 
+    public void postUrl(String url, byte[] data) {
+        mWebView.postUrl(url, data);
+    }
+
     /**
      * 设置缓存的级别
      * @param mode

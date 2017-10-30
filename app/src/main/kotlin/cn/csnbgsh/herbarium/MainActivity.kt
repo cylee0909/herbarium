@@ -22,7 +22,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             }
         }
         var URL_MAP = mapOf<Int, URLItem>(
-                R.id.am_message_linear to URLItem(Config.getHost()+"/Message.html", "消息"),
+                R.id.am_message_linear to URLItem("http://www.ibiodiversity.net/GNGroup.aspx?id=csh", "消息"),
                 R.id.am_stat_linear to URLItem(Config.getHost()+"/Statis.html", "统计"),
                 R.id.am_collect_linear to URLItem(Config.getHost()+"/MySpecimens.html", "收藏")
         )

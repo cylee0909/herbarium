@@ -43,11 +43,24 @@ public abstract class BaseWebActivity extends Activity {
 		back.setOnClickListener(onClickListener);
 		mTitle.setText(getTopTitle());
 		String contentUrl = getContentUrl();
-		mWebView.loadUrl(contentUrl);
+		if (postMethod()) {
+			byte[] postData = getPostData();
+			mWebView.postUrl(contentUrl, postData);
+		} else {
+			mWebView.loadUrl(contentUrl);
+		}
 	}
 
 	protected abstract String getContentUrl();
 	protected abstract String getTopTitle();
+
+	protected boolean postMethod() {
+		return false;
+	}
+
+	protected byte[] getPostData() {
+		return null;
+	}
 
 	protected void readIntent() {}
 }

@@ -4,9 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
-import com.cylee.androidlib.util.PreferenceUtils
 import com.cylee.androidlib.util.Settings
+import com.cylee.androidlib.util.TextUtil
 import com.cylee.lib.widget.webview.BaseWebActivity
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Created by cylee on 16/4/2.
@@ -42,6 +44,21 @@ class WebActivity : BaseWebActivity{
 
     override fun getContentUrl(): String? {
         return mUrl+"?user=${Settings.getString(SettingActivity.SETTING_KEY_NAME)}"
+    }
+
+    override fun postMethod(): Boolean {
+        return mUrl.contains("GNGroup.aspx")
+    }
+
+    override fun getPostData(): ByteArray {
+        if (mUrl.contains("GNGroup.aspx")) {
+            var uName = Settings.getString(SettingActivity.SETTING_KEY_NAME)
+            var current = SimpleDateFormat("yyyyMMdd").format(Date())
+            var token = TextUtil.md5(uName+current+"CSH")
+            var data = "appid=csh&u=${uName}&token=${token}"
+            return data.toByteArray()
+        }
+        return kotlin.ByteArray(0)
     }
 
     override fun getTopTitle(): String? {

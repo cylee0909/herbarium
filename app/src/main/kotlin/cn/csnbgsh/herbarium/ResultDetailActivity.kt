@@ -141,7 +141,7 @@ class ResultDetailActivity : BaseActivity() {
         var img = bind<PhotoView>(R.id.ard_photo_view)
         if (file.exists()) {
             bind<RecyclingImageView>(R.id.ard_thumb_img).visibility = View.GONE
-            img.scaleType = ImageView.ScaleType.CENTER_CROP
+            img.scaleType = ImageView.ScaleType.FIT_CENTER
             img.setImageURI(Uri.fromFile(file))
         }
     }
@@ -168,7 +168,7 @@ class ResultDetailActivity : BaseActivity() {
                 if (TextUtil.isNetworkUrl(thumb)) {
                     var img = bind<RecyclingImageView>(R.id.ard_thumb_img)
                     img.visibility = View.VISIBLE
-                    img.setScaleTypes(ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.CENTER_CROP)
+                    img.setScaleTypes(ImageView.ScaleType.FIT_CENTER, ImageView.ScaleType.FIT_CENTER, ImageView.ScaleType.FIT_CENTER)
                     img.bind(thumb, 0, 0)
                 }
                 if (path != null) {
