@@ -18,6 +18,8 @@ package com.google.zxing.decoding;
 
 import java.util.Hashtable;
 
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -70,15 +72,19 @@ final class DecodeHandler extends Handler {
         long start = System.currentTimeMillis();
         Result rawResult = null;
 
-        // modify here
-        byte[] rotatedData = new byte[data.length];
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++)
-                rotatedData[x * height + height - y - 1] = data[x + y * width];
+        byte[] rotatedData = data;
+        Point screenResolution = CameraManager.get().getScreenResolution();
+        if (screenResolution.y > screenResolution.x) {
+            rotatedData = new byte[data.length];
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++)
+                    rotatedData[x * height + height - y - 1] = data[x + y * width];
+            }
+
+            int tmp = width; // Here we are swapping, that's the difference to #11
+            width = height;
+            height = tmp;
         }
-        int tmp = width; // Here we are swapping, that's the difference to #11
-        width = height;
-        height = tmp;
 
         PlanarYUVLuminanceSource source = CameraManager.get().buildLuminanceSource(rotatedData,
                 width, height);

@@ -40,10 +40,7 @@ class ChangePlaceActivity : CaptureActivity() {
         CameraManager.get().setMaxDimen(200.dp2px(), 200.dp2px())
         val root = bind<FrameLayout>(R.id.qcs_root)
         val extraView: View = layoutInflater.inflate(R.layout.change_place_extra_layout, null)
-        val rect: Rect = CameraManager.get().framingRect
-        val params: FrameLayout.LayoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
-        params.topMargin = rect.bottom
-        root?.addView(extraView, params)
+        root?.addView(extraView, getExtraLayoutParams())
 
         mHandInput = extraView.findViewById(R.id.cpel_input_edit) as EditText
         var box = intent.getStringExtra(INPUT_BOX)

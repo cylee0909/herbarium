@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Rect
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
@@ -14,7 +13,10 @@ import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
-import cn.csnbgsh.herbarium.entity.*
+import cn.csnbgsh.herbarium.entity.AddSpecimen2WorkSheet
+import cn.csnbgsh.herbarium.entity.GetWorkSheet
+import cn.csnbgsh.herbarium.entity.ISpecimenListItem
+import cn.csnbgsh.herbarium.entity.RemoveSpecimenFromWorkSheet
 import cn.csnbgsh.herbarium.widget.EasySwipeMenuLayout
 import cn.lemon.view.RefreshRecyclerView
 import cn.lemon.view.adapter.BaseViewHolder
@@ -56,10 +58,7 @@ class SheetListActivity : CaptureActivity() {
         CameraManager.get().setMaxDimen(200.dp2px(), 200.dp2px())
         val root = bind<FrameLayout>(R.id.qcs_root)
         val extraView: View = layoutInflater.inflate(R.layout.sheet_list_extra_layout, null)
-        val rect: Rect = CameraManager.get().framingRect
-        val params: FrameLayout.LayoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
-        params.topMargin = rect.bottom
-        root?.addView(extraView, params)
+        root?.addView(extraView, getExtraLayoutParams())
 
         sheetItem = intent.getSerializableExtra(INPUT_WORK_SHEET) as SheetItem
         mHandInput = extraView.findViewById(R.id.slel_input_edit) as EditText

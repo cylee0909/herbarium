@@ -36,10 +36,7 @@ class CabinetActivity : CaptureActivity() {
         super.onCreate(savedInstanceState)
         val root = bind<FrameLayout>(R.id.qcs_root)
         val extraView: View = layoutInflater.inflate(R.layout.cabinet_extra_layout, null)
-        val rect: Rect = CameraManager.get().framingRect
-        val params: FrameLayout.LayoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
-        params.topMargin = rect.bottom
-        root?.addView(extraView, params)
+        root?.addView(extraView, getExtraLayoutParams())
 
         mHandInput = extraView.findViewById(R.id.cel_input_edit) as EditText
         mBatchBn = extraView.findViewById(R.id.cel_search) as Button

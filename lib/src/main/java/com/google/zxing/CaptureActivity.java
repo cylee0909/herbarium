@@ -1,14 +1,12 @@
 package com.google.zxing;
 
-import java.io.IOException;
-import java.util.Vector;
-
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -22,13 +20,18 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.cylee.androidlib.util.AndroidUtils;
 import com.cylee.lib.R;
 import com.google.zxing.camera.CameraManager;
 import com.google.zxing.decoding.CaptureActivityHandler;
 import com.google.zxing.decoding.InactivityTimer;
 import com.google.zxing.view.ViewfinderView;
+
+import java.io.IOException;
+import java.util.Vector;
 
 /**
  * Initial the camera
@@ -55,10 +58,9 @@ public class CaptureActivity extends Activity implements Callback {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.qr_code_scan);
 
-		CameraManager.init(getApplication());
+		CameraManager.init(this);
 		initControl();
 
 		hasSurface = false;
@@ -86,6 +88,19 @@ public class CaptureActivity extends Activity implements Callback {
 			}
 		});
 
+	}
+
+	protected FrameLayout.LayoutParams getExtraLayoutParams() {
+		Rect rect = CameraManager.get().getFramingRect();
+		FrameLayout.LayoutParams params  = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+		Point screenResolution = CameraManager.get().getScreenResolution();
+		if (screenResolution.y > screenResolution.x) {
+			params.topMargin = rect.bottom;
+		} else {
+			params.leftMargin = rect.right + AndroidUtils.dip2px(this, 10);
+			params.topMargin = rect.top;
+		}
+		return params;
 	}
 
 	@Override

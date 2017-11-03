@@ -22,6 +22,7 @@ import android.hardware.Camera;
 import android.os.Build;
 import android.util.Log;
 import android.view.Display;
+import android.view.Surface;
 import android.view.WindowManager;
 
 import java.util.regex.Pattern;
@@ -69,11 +70,6 @@ final class CameraConfigurationManager {
         /** end **/
         cameraResolution = getCameraResolution(parameters, screenResolutionForCamera);
         Log.d(TAG, "Camera resolution: " + screenResolutionForCamera);
-        /*
-         * cameraResolution = getCameraResolution(parameters, screenResolution);
-         * Log.d(TAG, "Camera resolution: " + screenResolution);
-         */
-        /** end **/
     }
 
     /**
@@ -89,9 +85,29 @@ final class CameraConfigurationManager {
         parameters.setPreviewSize(cameraResolution.x, cameraResolution.y);
         setFlash(parameters);
         setZoom(parameters);
-        // setSharpness(parameters);
-        // modify here
-        camera.setDisplayOrientation(90);
+
+        int rotation = context.getSystemService(WindowManager.class).getDefaultDisplay()
+                .getRotation();
+        int degrees = 0;
+        switch (rotation) {
+            case Surface.ROTATION_0: degrees = 0; break;
+            case Surface.ROTATION_90: degrees = 90; break;
+            case Surface.ROTATION_180: degrees = 180; break;
+            case Surface.ROTATION_270: degrees = 270; break;
+        }
+
+        int result;
+        android.hardware.Camera.CameraInfo info =
+                  new android.hardware.Camera.CameraInfo();
+        android.hardware.Camera.getCameraInfo(0, info);
+        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+            result = (info.orientation + degrees) % 360;
+            result = (360 - result) % 360;  // compensate the mirror
+        } else {  // back-facing
+            result = (info.orientation - degrees + 360) % 360;
+        }
+        camera.setDisplayOrientation(result);
+
         camera.setParameters(parameters);
     }
 
@@ -206,8 +222,6 @@ final class CameraConfigurationManager {
         // if (Build.MODEL.contains("Behold II") &&
         // CameraManager.SDK_INT == Build.VERSION_CODES.CUPCAKE) {
         if (Build.MODEL.contains("Behold II") && CameraManager.SDK_INT == 3) { // 3
-                                                                               // =
-                                                                               // Cupcake
             parameters.set("flash-value", 1);
         } else {
             parameters.set("flash-value", 2);
@@ -218,7 +232,6 @@ final class CameraConfigurationManager {
     }
 
     private void setZoom(Camera.Parameters parameters) {
-
         String zoomSupportedString = parameters.get("zoom-supported");
         if (zoomSupportedString != null && !Boolean.parseBoolean(zoomSupportedString)) {
             return;
