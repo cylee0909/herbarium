@@ -115,6 +115,10 @@ public final class CameraManager {
         autoFocusCallback = new AutoFocusCallback();
     }
 
+    public int getPreviewRotation() {
+        return configManager.getPreviewRotation();
+    }
+
     public void setMaxDimen(int width, int height) {
         MAX_FRAME_WIDTH = width;
         MAX_FRAME_HEIGHT = height;

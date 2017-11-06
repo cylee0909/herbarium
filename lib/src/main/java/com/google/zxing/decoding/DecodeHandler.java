@@ -16,10 +16,6 @@
 
 package com.google.zxing.decoding;
 
-import java.util.Hashtable;
-
-import android.graphics.Point;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -36,6 +32,8 @@ import com.google.zxing.Result;
 import com.google.zxing.camera.CameraManager;
 import com.google.zxing.camera.PlanarYUVLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
+
+import java.util.Hashtable;
 
 final class DecodeHandler extends Handler {
 
@@ -59,6 +57,76 @@ final class DecodeHandler extends Handler {
         }
     }
 
+    public static byte[] rotateYUV420Degree90(byte[] data, int imageWidth, int imageHeight) {
+        byte[] yuv = new byte[imageWidth * imageHeight * 3 / 2];
+        // Rotate the Y luma
+        int i = 0;
+        for (int x = 0; x < imageWidth; x++) {
+            for (int y = imageHeight - 1; y >= 0; y--) {
+                yuv[i] = data[y * imageWidth + x];
+                i++;
+            }
+        }
+
+        i = imageWidth * imageHeight * 3 / 2 - 1;
+        for (int x = imageWidth - 1; x > 0; x = x - 2) {
+            for (int y = 0; y < imageHeight / 2; y++) {
+                yuv[i] = data[(imageWidth * imageHeight) + (y * imageWidth) + x];
+                i--;
+                yuv[i] = data[(imageWidth * imageHeight) + (y * imageWidth)
+                        + (x - 1)];
+                i--;
+            }
+        }
+        return yuv;
+    }
+
+    private static byte[] rotateYUV420Degree180(byte[] data, int imageWidth, int imageHeight) {
+        byte[] yuv = new byte[imageWidth * imageHeight * 3 / 2];
+        int i;
+        int count = 0;
+        for (i = imageWidth * imageHeight - 1; i >= 0; i--) {
+            yuv[count] = data[i];
+            count++;
+        }
+        for (i = imageWidth * imageHeight * 3 / 2 - 1; i >= imageWidth
+                * imageHeight; i -= 2) {
+            yuv[count++] = data[i - 1];
+            yuv[count++] = data[i];
+        }
+        return yuv;
+    }
+
+    public static byte[] rotateYUV420Degree270(byte[] data, int imageWidth, int imageHeight) {
+        byte[] yuv = new byte[imageWidth * imageHeight * 3 / 2];
+        int nWidth = 0, nHeight = 0;
+        int wh = 0;
+        int uvHeight = 0;
+        if (imageWidth != nWidth || imageHeight != nHeight) {
+            wh = imageWidth * imageHeight;
+            uvHeight = imageHeight >> 1;// uvHeight = height / 2
+        }
+        int k = 0;
+        for (int i = 0; i < imageWidth; i++) {
+            int nPos = 0;
+            for (int j = 0; j < imageHeight; j++) {
+                yuv[k] = data[nPos + i];
+                k++;
+                nPos += imageWidth;
+            }
+        }
+        for (int i = 0; i < imageWidth; i += 2) {
+            int nPos = wh;
+            for (int j = 0; j < uvHeight; j++) {
+                yuv[k] = data[nPos + i];
+                yuv[k + 1] = data[nPos + i + 1];
+                k += 2;
+                nPos += imageWidth;
+            }
+        }
+        return rotateYUV420Degree180(yuv, imageWidth, imageHeight);
+    }
+
     /**
      * Decode the data within the viewfinder rectangle, and time how long it
      * took. For efficiency, reuse the same reader objects from one decode to
@@ -73,14 +141,25 @@ final class DecodeHandler extends Handler {
         Result rawResult = null;
 
         byte[] rotatedData = data;
-        Point screenResolution = CameraManager.get().getScreenResolution();
-        if (screenResolution.y > screenResolution.x) {
-            rotatedData = new byte[data.length];
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++)
-                    rotatedData[x * height + height - y - 1] = data[x + y * width];
-            }
+        int previewRotation = CameraManager.get().getPreviewRotation();
+        boolean changeWidth = false;
+        switch (previewRotation) {
+            case 0:
+                break;
+            case 90 :
+                rotatedData = rotateYUV420Degree90(rotatedData, width, height);
+                changeWidth = true;
+                break;
+            case 180:
+                rotatedData = rotateYUV420Degree180(rotatedData, width, height);
+                break;
+            case 270:
+                rotatedData = rotateYUV420Degree270(rotatedData, width, height);
+                changeWidth = true;
+                break;
+        }
 
+        if (changeWidth) {
             int tmp = width; // Here we are swapping, that's the difference to #11
             width = height;
             height = tmp;

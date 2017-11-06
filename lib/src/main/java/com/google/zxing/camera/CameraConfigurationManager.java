@@ -41,6 +41,7 @@ final class CameraConfigurationManager {
     private Point cameraResolution;
     private int previewFormat;
     private String previewFormatString;
+    private int previewRotation;
 
     CameraConfigurationManager(Context context) {
         this.context = context;
@@ -70,6 +71,10 @@ final class CameraConfigurationManager {
         /** end **/
         cameraResolution = getCameraResolution(parameters, screenResolutionForCamera);
         Log.d(TAG, "Camera resolution: " + screenResolutionForCamera);
+    }
+
+    public int getPreviewRotation() {
+        return previewRotation;
     }
 
     /**
@@ -106,6 +111,7 @@ final class CameraConfigurationManager {
         } else {  // back-facing
             result = (info.orientation - degrees + 360) % 360;
         }
+        previewRotation = result;
         camera.setDisplayOrientation(result);
 
         camera.setParameters(parameters);
