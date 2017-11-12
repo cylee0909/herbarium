@@ -157,7 +157,10 @@ class WorkSheetDetailActivity : TitleActivity() {
                     }
                 })
             }
-            text.text = "${data.EventTime}, ${data.Editor}${data.Step}"
+            text.text = "${data.EventTime}, ${data.Editor}${data.Step}\n" +
+                    "批次号:${data.SN} ${data.Count}份\n" +
+                    "处理方法:${data.Treatment} 备注:${data.Memo}\n" +
+                    "处理人员 ${data.Staff}"
         }
 
         override fun onItemViewClick(data: Process?) {
