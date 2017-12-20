@@ -11,7 +11,7 @@ import com.cylee.lib.R;
 public abstract class BaseWebActivity extends Activity {
 
 	private TextView back;
-	private ProgressWebView      mWebView;
+	protected ProgressWebView      mWebView;
 	private TextView mTitle;
 	private View.OnClickListener onClickListener;
 

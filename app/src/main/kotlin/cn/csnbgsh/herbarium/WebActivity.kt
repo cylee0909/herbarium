@@ -43,11 +43,20 @@ class WebActivity : BaseWebActivity{
     }
 
     override fun getContentUrl(): String? {
-        return mUrl+"?user=${Settings.getString(SettingActivity.SETTING_KEY_NAME)}"
+        var sChar = if (mUrl.contains("?")) "&" else "?"
+        return mUrl+"${sChar}user=${Settings.getString(SettingActivity.SETTING_KEY_NAME)}"
     }
 
     override fun postMethod(): Boolean {
         return mUrl.contains("GNGroup.aspx")
+    }
+
+    override fun onBackPressed() {
+        if (mWebView.webView.canGoBack()) {
+            mWebView.webView.goBack()
+            return
+        }
+        super.onBackPressed()
     }
 
     override fun getPostData(): ByteArray {
