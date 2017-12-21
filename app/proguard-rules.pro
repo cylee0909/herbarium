@@ -17,3 +17,5 @@
 #}
 
 -keep class cn.csnbgsh.herbarium.entity.** { *;}
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable

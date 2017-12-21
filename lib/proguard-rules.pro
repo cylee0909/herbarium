@@ -15,3 +15,14 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
+
+-keep public class com.baidu.crabsdk.**
+-keepclassmembers public class com.baidu.crabsdk.*{
+    *;
+}
+#Native Crash收集请加入如下配置
+-keepclassmembers public class com.baidu.crabsdk.sender.NativeCrashHandler{
+    *;
+}

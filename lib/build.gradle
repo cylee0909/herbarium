@@ -25,6 +25,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'crab.baidu.crabsdk:crabsdk:latest.release@aar'
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }

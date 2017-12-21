@@ -3,6 +3,8 @@ package com.cylee.androidlib.base;
 import android.support.v4.app.FragmentActivity;
 import android.util.SparseArray;
 
+import com.baidu.crabsdk.CrabSDK;
+
 public class BaseActivity extends FragmentActivity {
     /**
      * 将网络请求的listener的强引用保存在activity内部，这样底层网络库不再强引用持有listener对象
@@ -15,5 +17,17 @@ public class BaseActivity extends FragmentActivity {
         boolean ret = this.listenerRef.get(key) != null;
         this.listenerRef.remove(key);
         return ret;
+    }
+
+    @Override
+    protected void onPause() {
+        CrabSDK.onPause(this);
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        CrabSDK.onResume(this);
     }
 }
